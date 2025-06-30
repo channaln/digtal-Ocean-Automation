@@ -15,7 +15,7 @@
     msg: "Retrieved {{ droplets.droplets | length }} droplets."
 
 - debug:
-  msg: |
-    {% for d in droplets.droplets %}
-    {{ d.id }}:{{ d.name }}
-    {% endfor %}
+    msg: |
+      {% for d in droplets.droplets %}
+      {{ d.id }}:{{ d.name }}
+      {% endfor %}

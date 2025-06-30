@@ -14,8 +14,13 @@
 - debug:
     msg: "Retrieved {{ droplets.droplets | length }} droplets."
 
+- name: Check if specified droplets exist
+  set_fact:
+    found_droplets: "{{ lookup_droplets | map('extract', droplets_map, default=None) | select('!=', None) | list }}"
+  vars:
+    droplets_map: "{{ droplets.droplets | items2dict(key_name='name', value_name='id') }}"
+    lookup_droplets: "{{ search_droplets | default([]) }}"
+
 - debug:
-    msg: |
-      {% for d in droplets.droplets %}
-      {{ d.id }}:{{ d.name }}
-      {% endfor %}
+    msg: "present-yes"
+  when: found_droplets | length > 0

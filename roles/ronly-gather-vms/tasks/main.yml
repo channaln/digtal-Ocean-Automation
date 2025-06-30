@@ -41,6 +41,12 @@
   tags:
     - appruvel
 
+- name: Preappruvel process for droplets
+  debug:
+    msg: "Refer the report below"
+  tags:
+    - appruvel  
+ 
 - name: Print found droplets details line by line
   ansible.builtin.debug:
     msg: |

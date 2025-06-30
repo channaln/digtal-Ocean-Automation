@@ -1,0 +1,8 @@
+---
+- name: Gather VM Facts Playbook
+  hosts: localhost
+  collections:
+      - digitalocean.cloud
+
+  roles:
+    - ronly-gather-vms

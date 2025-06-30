@@ -1,0 +1,9 @@
+---
+# vars file for roles/ronly-gather-vms
+user_pip_packages:
+      - name: azure-core
+        version: "1.26.1"
+      - name: boto3
+        version: "1.28.53"
+      - name: pydo
+        version: "0.1.7"

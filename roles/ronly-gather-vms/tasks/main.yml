@@ -5,29 +5,41 @@
     name: "{{ item.name }}=={{ item.version }}"
     executable: pip3
   loop: "{{ user_pip_packages }}"
+  tags:
+    - appruvel
 
 - name: Get teh available Droplets info
   digitalocean.cloud.droplets_info:
     token: "{{ token }}"
   register: droplets
+  tags:
+    - appruvel
 
 - name: Prepare droplets lookup variables
   set_fact:
     droplets_map: "{{ droplets.droplets | items2dict(key_name='name', value_name='id') }}"
     lookup_droplets: "{{ search_droplets | default([]) }}"
+  tags:
+    - appruvel
 
 - name: Check if specified droplets exist
   set_fact:
     found_droplets: "{{ lookup_droplets | map('extract', droplets_map) | select('defined') | list }}"
+  tags:
+    - appruvel
 
 - name: Filter out existing droplets
   debug:
     msg: "Retrieved {{ droplets.droplets | length }} droplets."
+  tags:
+    - appruvel
 
 - name: Debug existing droplets
   debug:
     msg: "{{ lookup_droplets | join(', ') }} are existing droplets."
   when: found_droplets | length > 0
+  tags:
+    - appruvel
 
 - name: Print found droplets details line by line
   ansible.builtin.debug:
@@ -38,8 +50,12 @@
       IP: {{ item.networks.v4[0].ip_address }}
   loop: "{{ droplets.droplets | selectattr('name', 'in', lookup_droplets) | list }}"
   when: droplets.droplets | selectattr('name', 'in', lookup_droplets) | list | length > 0
+  tags:
+    - details
 
 - name: Fail if any lookup_droplets are missing
   ansible.builtin.fail:
     msg: "Droplet(s) do not exist: {{ (search_droplets | default([]) | difference(droplets_map.keys())) | join(', ') }}"
   when: (search_droplets | default([]) | difference(droplets_map.keys())) | length > 0
+  tags:
+    - details

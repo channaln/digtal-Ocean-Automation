@@ -22,5 +22,10 @@
     lookup_droplets: "{{ search_droplets | default([]) }}"
 
 - debug:
-    msg: "present-yes: {{ found_droplets | join(', ') }}"
+  msg: "present-yes: {{ found_droplets | join(', ') }}"
   when: found_droplets | length > 0
+
+- name: Fail if any lookup_droplets are missing
+  ansible.builtin.fail:
+  msg: "Droplet(s) do not exist: {{ (lookup_droplets | difference(found_droplets)) | join(', ') }}"
+  when: (lookup_droplets | difference(found_droplets)) | length > 0

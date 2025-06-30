@@ -7,4 +7,3 @@ user_pip_packages:
         version: "1.28.53"
       - name: pydo
         version: "0.1.7"
-      - name: jmespath

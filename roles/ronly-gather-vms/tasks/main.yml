@@ -54,17 +54,17 @@
   tags:
     - details
  
-- name: Print found droplets details line by line
-  ansible.builtin.debug:
-    msg: |
-      Droplet {{ item.name }} (ID: {{ item.id }})
-      RAM: {{ item.memory }} MB
-      CPU: {{ item.vcpus }}
-      IP: {{ item.networks.v4[0].ip_address }}
-  loop: "{{ droplets.droplets | selectattr('name', 'in', lookup_droplets) | list }}"
-  when: droplets.droplets | selectattr('name', 'in', lookup_droplets) | list | length > 0
-  tags:
-    - details
+# - name: Print found droplets details line by line
+#   ansible.builtin.debug:
+#     msg: |
+#       Droplet {{ item.name }} (ID: {{ item.id }})
+#       RAM: {{ item.memory }} MB
+#       CPU: {{ item.vcpus }}
+#       IP: {{ item.networks.v4[0].ip_address }}
+#   loop: "{{ droplets.droplets | selectattr('name', 'in', lookup_droplets) | list }}"
+#   when: droplets.droplets | selectattr('name', 'in', lookup_droplets) | list | length > 0
+#   tags:
+#     - details
 
 - name: Fail if any lookup_droplets are missing
   ansible.builtin.fail:

@@ -22,5 +22,5 @@
     lookup_droplets: "{{ search_droplets | default([]) }}"
 
 - debug:
-    msg: "present-yes"
+  msg: "present-yes: {{ found_droplets | join(', ') }}"
   when: found_droplets | length > 0

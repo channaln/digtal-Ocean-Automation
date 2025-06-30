@@ -1,5 +1,6 @@
 ---
 # Tasks file for roles/ronly-gather-vms
+
 - name: Ensure required Python packages are installed (user scope)
   ansible.builtin.pip:
     name: "{{ item.name }}=={{ item.version }}"

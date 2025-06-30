@@ -58,4 +58,4 @@
     msg: "Droplet(s) do not exist: {{ (search_droplets | default([]) | difference(droplets_map.keys())) | join(', ') }}"
   when: (search_droplets | default([]) | difference(droplets_map.keys())) | length > 0
   tags:
-    - details
+    - appruvel

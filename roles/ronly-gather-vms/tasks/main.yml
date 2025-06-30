@@ -10,14 +10,15 @@
   digitalocean.cloud.droplets_info:
     token: "{{ token }}"
   register: droplets
-
-- debug:
-    var: "{{ droplets.droplets}}"
     
 - name: Extract id and name using json_query
   set_fact:
-    droplet_response: "{{ droplets.droplets }}"
-    droplet_summary: "{{ droplet_response.json.droplets| json_query('[].{id: id, name: name}') }}"
+    droplet_summary: "{{ droplets.data | json_query('[].{id: id, name: name}') }}"
 
-- debug:
-    var: droplet_summary
+- name: Show filtered droplet info
+  debug:
+    msg: "{{ droplet_summary }}"
+    
+- name: Show droplet count
+  debug:
+    msg: "Total droplets: {{ droplet_summary | length }}"

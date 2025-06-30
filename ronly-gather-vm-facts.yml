@@ -3,6 +3,7 @@
   hosts: localhost
   collections:
       - digitalocean.cloud
+      - community.general
 
   roles:
     - ronly-gather-vms

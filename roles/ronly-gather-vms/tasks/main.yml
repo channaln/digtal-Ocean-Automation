@@ -21,6 +21,12 @@
     lookup_droplets: "{{ search_droplets | default([]) }}"
   tags:
     - appruvel
+    
+- name: Preappruvel process for droplets
+  debug:
+    msg: "Refer the report below"
+  tags:
+    - appruvel  
 
 - name: Check if specified droplets exist
   set_fact:
@@ -34,18 +40,18 @@
   tags:
     - appruvel
 
+- name: Set fact for existing droplets IDs
+  set_fact:
+    existing_droplets_ids: "{{ droplets.droplets | selectattr('name', 'in', lookup_droplets) | map(attribute='id') | list }}"
+  tags:
+    - appruvel
+
 - name: Debug existing droplets
   debug:
     msg: "{{ lookup_droplets | join(', ') }} are existing droplets."
   when: found_droplets | length > 0
   tags:
-    - appruvel
-
-- name: Preappruvel process for droplets
-  debug:
-    msg: "Refer the report below"
-  tags:
-    - appruvel  
+    - details
  
 - name: Print found droplets details line by line
   ansible.builtin.debug:
@@ -65,3 +71,14 @@
   when: (search_droplets | default([]) | difference(droplets_map.keys())) | length > 0
   tags:
     - appruvel
+
+- debug:
+    var: existing_droplets_ids
+
+# - name: Shut down existing Droplets (force if unsuccessful)
+#   digitalocean.cloud.droplet_action_power:
+#     token: "{{ token }}"
+#     state: shutdown
+#     force_power_off: true
+#     id: "{{ item }}"
+#   loop: "{{ existing_droplets_ids }}"

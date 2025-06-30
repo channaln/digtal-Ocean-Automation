@@ -9,8 +9,8 @@ user_pip_packages:
         version: "0.1.7"
 
 search_droplets:
-  - vps.arabeyes.org
-  - test.arabeyes.org
-  - test2.arabeyes.org
-  - pm.kuwaitnet.com
-  - pay.diwanworld.com
+  # - vps.arabeyes.org
+  # - test.arabeyes.org
+  # - test2.arabeyes.org
+  # - pm.kuwaitnet.com
+  # - pay.diwanworld.com

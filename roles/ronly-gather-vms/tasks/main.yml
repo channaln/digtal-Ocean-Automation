@@ -48,7 +48,7 @@
 
 - name: Debug existing droplets
   debug:
-    msg: "{{ lookup_droplets | join(', ') }} are existing droplets."
+    msg: "{{ found_droplets | join(', ') }} are existing droplets."
   when: found_droplets | length > 0
   tags:
     - details

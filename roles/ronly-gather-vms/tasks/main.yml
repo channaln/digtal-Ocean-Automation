@@ -66,12 +66,12 @@
 #   tags:
 #     - details
 
-- name: Fail if any lookup_droplets are missing
-  ansible.builtin.fail:
-    msg: "Droplet(s) do not exist: {{ (search_droplets | default([]) | difference(droplets_map.keys())) | join(', ') }}"
-  when: (search_droplets | default([]) | difference(droplets_map.keys())) | length > 0
-  tags:
-    - appruvel
+# - name: Fail if any lookup_droplets are missing
+#   ansible.builtin.fail:
+#     msg: "Droplet(s) do not exist: {{ (search_droplets | default([]) | difference(droplets_map.keys())) | join(', ') }}"
+#   when: (search_droplets | default([]) | difference(droplets_map.keys())) | length > 0
+#   tags:
+#     - appruvel
 
 # - debug:
 #     var: existing_droplets_ids

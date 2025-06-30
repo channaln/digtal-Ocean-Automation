@@ -87,6 +87,14 @@
 #   loop: "{{ existing_droplets_ids }}"
 #   when: droplet_state == 'shutdown
 
+- name: Ensure ping is installed on target hosts
+  ansible.builtin.package:
+    name: iputils-ping
+    state: present
+  become: true
+  tags:
+    - ping
+
 - name: Ping each droplet's public IP (5 packets, 1 second interval)
   ansible.builtin.shell: "ping -c 5 -i 1 {{ item.networks.v4[0].ip_address }}"
   loop: "{{ droplets.droplets | selectattr('id', 'in', existing_droplets_ids) | list }}"

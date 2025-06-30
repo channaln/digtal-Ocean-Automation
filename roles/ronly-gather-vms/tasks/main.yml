@@ -90,8 +90,6 @@
 - name: Ping each droplet's public IP (5 packets, 1 second interval)
   ansible.builtin.ping:
     dest: "{{ item.networks.v4[0].ip_address }}"
-    count: 5
-    interval: 1
   loop: "{{ droplets.droplets | selectattr('id', 'in', existing_droplets_ids) | list }}"
   loop_control:
     label: "{{ item.name }}"

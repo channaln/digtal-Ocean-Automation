@@ -31,7 +31,7 @@
 
 - name: Check if specified droplets exist
   set_fact:
-    found_droplets: "{{ lookup_droplets | map('extract', droplets_map) | select('defined') | list }}"
+    found_droplets: "{{ lookup_droplets | select('in', droplets_map.keys()) | list }}"
   tags:
     - appruvel
 

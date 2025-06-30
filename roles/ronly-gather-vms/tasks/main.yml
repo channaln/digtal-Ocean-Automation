@@ -11,9 +11,6 @@
     token: "{{ token }}"
   register: droplets
 
-- debug:
-    msg: "Retrieved {{ droplets.droplets | length }} droplets."
-
 - name: Prepare droplets lookup variables
   set_fact:
     droplets_map: "{{ droplets.droplets | items2dict(key_name='name', value_name='id') }}"
@@ -23,7 +20,12 @@
   set_fact:
     found_droplets: "{{ lookup_droplets | map('extract', droplets_map) | select('defined') | list }}"
 
-- debug:
+- name: Filter out existing droplets
+  debug:
+    msg: "Retrieved {{ droplets.droplets | length }} droplets."
+
+- name: Debug existing droplets
+  debug:
     msg: "{{ lookup_droplets | join(', ') }} are existing droplets."
   when: found_droplets | length > 0
 
@@ -31,3 +33,9 @@
   ansible.builtin.fail:
     msg: "Droplet(s) do not exist: {{ (search_droplets | default([]) | difference(droplets_map.keys())) | join(', ') }}"
   when: (search_droplets | default([]) | difference(droplets_map.keys())) | length > 0
+
+- name: loop and display only the found droplets names ids and ram and cpu and ip 
+  debug:
+    msg: "Droplet {{ item.name }} (ID: {{ item.id }}) - RAM: {{ item.memory }} MB, CPU: {{ item.vcpus }}, IP: {{ item.networks.v4[0].ip_address }}"
+  loop: "{{ droplets.droplets | selectattr('name', 'in', lookup_droplets) | list }}"
+  when: droplets.droplets | selectattr('name', 'in', lookup_droplets) | list | length > 0

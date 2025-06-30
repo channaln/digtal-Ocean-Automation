@@ -6,16 +6,18 @@
     executable: pip3
   loop: "{{ user_pip_packages }}"
 
-# - name: Get VPCs
-#   digitalocean.cloud.vpcs_info:
-#     token: "{{ token }}"
-#   register: vpcs
-
-- name: Get VPCs
+- name: Get teh available Droplets info
   digitalocean.cloud.droplets_info:
     token: "{{ token }}"
   register: droplets
 
-- name: print the available VPCs
-  ansible.builtin.debug:
-    msg: "{{ droplets.droplets }}"
+- debug:
+    var: "{{ droplets.droplets.msg }}"
+    
+- name: Extract id and name using json_query
+  set_fact:
+    droplet_response: "{{ droplets.droplets.msg }}"
+    droplet_summary: "{{ droplet_response.json.droplets.msg | json_query('[].{id: id, name: name}') }}"
+
+- debug:
+    var: droplet_summary

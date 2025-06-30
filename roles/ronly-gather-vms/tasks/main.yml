@@ -13,7 +13,7 @@
     
 - name: Extract id and name using json_query
   set_fact:
-    droplet_summary: "{{ droplets.data | json_query('[].{id: id, name: name}') }}"
+    droplet_summary: "{{ droplets | json_query('[].{id: id, name: name}') }}"
 
 - name: Show filtered droplet info
   debug:

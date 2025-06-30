@@ -11,3 +11,6 @@ user_pip_packages:
 search_droplets:
   - vps.arabeyes.org
   - test.arabeyes.org
+  - test2.arabeyes.org
+  - pm.kuwaitnet.com
+  - pay.diwanworld.com

@@ -24,7 +24,7 @@
     found_droplets: "{{ lookup_droplets | map('extract', droplets_map) | select('defined') | list }}"
 
 - debug:
-    msg: "present-yes: {{ lookup_droplets | join(', ') }}"
+    msg: "{{ lookup_droplets | join(', ') }} are existing droplets."
   when: found_droplets | length > 0
 
 - name: Fail if any lookup_droplets are missing

@@ -6,11 +6,16 @@
     executable: pip3
   loop: "{{ user_pip_packages }}"
 
+# - name: Get VPCs
+#   digitalocean.cloud.vpcs_info:
+#     token: "{{ token }}"
+#   register: vpcs
+
 - name: Get VPCs
-  digitalocean.cloud.vpcs_info:
+  digitalocean.cloud.droplets_info:
     token: "{{ token }}"
-  register: vpcs
+  register: droplets
 
 - name: print the available VPCs
   ansible.builtin.debug:
-    msg: "{{ vpcs }}"
+    msg: "{{ droplets.droplets }}"
